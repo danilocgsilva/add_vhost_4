@@ -1,3 +1,10 @@
-from add_vhost_4.fn import *
+from add_vhost_4.Hosts import Hosts
+from add_vhost_4.VHost_Entry import VHost_Entry
 
-write_hosts()
+
+
+hosts = Hosts()
+vhost_entry = VHost_Entry()
+
+hosts.write_hosts()
+vhost_entry.add()

@@ -1,0 +1,9 @@
+<VirtualHost *:80>
+  ServerName %s
+  DocumentRoot %s
+  <Directory />
+    Require all granted 
+    Options FollowSymLinks
+    AllowOverride All
+  </Directory>
+</VirtualHost>
