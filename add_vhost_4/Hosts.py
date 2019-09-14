@@ -1,3 +1,5 @@
+import os
+
 class Hosts:
 
     def write_hosts(self):
@@ -8,4 +10,9 @@ class Hosts:
 
 
     def __get_hosts_file_path__(self) -> str:
-        return '/etc/hosts'
+        if os.name == 'posix':
+            return '/etc/hosts'
+        elif os.name == 'nt':
+            return 'C:\Windows\System32\drivers\etc\hosts'
+        else:
+            raise Exception("Sorry! I don't know which system I am running on... I am so dumb!!!!")
