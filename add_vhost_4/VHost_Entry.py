@@ -25,11 +25,17 @@ class VHost_Entry:
         self.__write_to_template__(template_lines, vhost_file_resource)
 
 
-    def __get_vhost_file__(self):
+    def __get_vhost_file__(self) -> str:
+        
         if os.name == 'nt':
-            return 'D:\\wamp64\\bin\\apache\\apache2.4.37\\conf\\extra\\httpd-vhosts.conf'
+            candidate_path = 'D:\\wamp64\\bin\\apache\\apache2.4.37\\conf\\extra\\httpd-vhosts.conf'
         else:
-            return '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf'
+            candidate_path = '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf'
+
+        if not os.path.isfile(candidate_path):
+            raise FileNotFoundError("No configuration file found.")
+
+        return candidate_path
 
 
     def __get_template_config_file__(self) -> str:
