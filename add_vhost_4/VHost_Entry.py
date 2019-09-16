@@ -1,4 +1,5 @@
 import os
+from VHost_Windows_Guesser import VHost_Windows_Guesser
 
 class VHost_Entry:
 
@@ -26,16 +27,13 @@ class VHost_Entry:
 
 
     def __get_vhost_file__(self) -> str:
+
+        windowsGuesser = VHost_Windows_Guesser()
         
         if os.name == 'nt':
-            candidate_path = 'D:\\wamp64\\bin\\apache\\apache2.4.37\\conf\\extra\\httpd-vhosts.conf'
+            return windowsGuesser.guess()
         else:
-            candidate_path = '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf'
-
-        if not os.path.isfile(candidate_path):
-            raise FileNotFoundError("No configuration file found.")
-
-        return candidate_path
+            return '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf'
 
 
     def __get_template_config_file__(self) -> str:
