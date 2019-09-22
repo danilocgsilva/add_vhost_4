@@ -1,10 +1,12 @@
 import os
-from add_vhost_4.Windows_Guesser import Windows_Guesser
+from add_vhost_4.guessers.Windows_Guesser import Windows_Guesser
+from add_vhost_4.guessers.Posix_Guesser import Posix_Guesser
 
 class VHost_Entry:
 
     def __init__(self):
         self.windowsGuesser = Windows_Guesser()
+        self.posixGuesser = Posix_Guesser()
         self.vhost_file = self.__get_vhost_file__()
         self.desired_name = ""
 
