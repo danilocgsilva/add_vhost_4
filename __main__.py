@@ -3,7 +3,13 @@ from add_vhost_4.VHost_Entry import VHost_Entry
 from add_vhost_4.CLI import CLI
 
 hosts = Hosts()
-vhost_entry = VHost_Entry()
+
+try:
+    vhost_entry = VHost_Entry()
+except FileNotFoundError as fnfe:
+    print("The virutalhost file entry has not been found in the system. Sorry!")
+    exit()
+
 cli = CLI()
 errors = []
 
@@ -22,3 +28,5 @@ if len(errors) > 0:
 vhost_desired = cli.get_user_param()
 hosts.write_hosts(vhost_desired)
 vhost_entry.add(vhost_desired)
+
+print("Virtualhost added locally successfully. Restart your webserver application and access http://" + vhost_desired)
