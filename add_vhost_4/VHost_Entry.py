@@ -1,9 +1,10 @@
 import os
-from add_vhost_4.VHost_Windows_Guesser import VHost_Windows_Guesser
+from add_vhost_4.Windows_Guesser import Windows_Guesser
 
 class VHost_Entry:
 
     def __init__(self):
+        self.windowsGuesser = Windows_Guesser()
         self.vhost_file = self.__get_vhost_file__()
         self.desired_name = ""
 
@@ -28,10 +29,8 @@ class VHost_Entry:
 
     def __get_vhost_file__(self) -> str:
 
-        windowsGuesser = VHost_Windows_Guesser()
-        
         if os.name == 'nt':
-            return windowsGuesser.guess()
+            return self.windowsGuesser.guess()
         else:
             return '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf'
 
@@ -51,3 +50,9 @@ class VHost_Entry:
                 line_string = template_line
             vhost_file_resource.write(line_string)
             line_loop += 1
+
+
+    # def write_folder(self):
+    #     if not os.path.isdir(physical_folder):
+    #         os.makedirs(physical_folder)
+    #         self.make_stub_php()

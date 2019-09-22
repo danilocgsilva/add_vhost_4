@@ -26,7 +26,9 @@ if len(errors) > 0:
     exit()
 
 vhost_desired = cli.get_user_param()
+
 hosts.write_hosts(vhost_desired)
 vhost_entry.add(vhost_desired)
+# vhost_entry.write_folder()
 
 print("Virtualhost added locally successfully. Restart your webserver application and access http://" + vhost_desired)

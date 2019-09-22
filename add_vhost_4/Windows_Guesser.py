@@ -1,6 +1,6 @@
 import os
 
-class VHost_Windows_Guesser:
+class Windows_Guesser:
 
     def __init__(self):
         self.possibles = [
