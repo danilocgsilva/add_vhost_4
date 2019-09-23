@@ -1,6 +1,6 @@
 import os
-from add_vhost_4.guessers.Windows_Guesser import Windows_Guesser
-from add_vhost_4.guessers.Posix_Guesser import Posix_Guesser
+from add_vhost_4.Guessers.Windows_Guesser import Windows_Guesser
+from add_vhost_4.Guessers.Posix_Guesser import Posix_Guesser
 
 class VHost_Entry:
 
@@ -34,7 +34,7 @@ class VHost_Entry:
         if os.name == 'nt':
             return self.windowsGuesser.guess()
         else:
-            return '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf'
+            return self.posixGuesser.guess()
 
 
     def __get_template_config_file__(self) -> str:
@@ -47,7 +47,7 @@ class VHost_Entry:
             if line_loop == 1:
                 line_string = template_line.format(self.desired_name)
             elif line_loop == 2:
-                line_string = template_line.format(os.path.join("D:\\wamp64\\www", self.desired_name))
+                line_string = template_line.format(os.path.join(self.__get_base_physical_path__(), self.desired_name))
             else:
                 line_string = template_line
             vhost_file_resource.write(line_string)
