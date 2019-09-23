@@ -6,13 +6,20 @@ class Posix_Guesser:
             '/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf',
             '/etc/httpd/conf/httpd.conf',
         ]
+        self.httpd_entries_address = None
+
 
     def guess(self):
 
         for candidate in self.possibles:
             if os.path.isfile(candidate):
-                print(candidate)
+                self.httpd_entries_address = candidate
                 return candidate
 
         raise FileNotFoundError("There were not possible to guess the path for the virtual hosts entry.")
+
+
+    def get_base_physical_path(self):
+        if self.httpd_entries_address[1:4] == 'etc':
+            return '/var/www/html'
 
