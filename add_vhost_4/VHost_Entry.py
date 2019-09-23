@@ -63,8 +63,6 @@ class VHost_Entry:
 
 
     def __make_stub_php__(self):
-        file_name = os.path.join(self.physical_vhost_path, 'index.php')
-        file_resource = open(file_name, "r")
-        file_resource.write('<?php')
-        file_resource.write('')
+        file_name = os.path.join(self.physical_vhost_path, 'index.html')
+        file_resource = open(file_name, "w")
         file_resource.write('Hello world! This VirtualHost name is ' + self.desired_name)

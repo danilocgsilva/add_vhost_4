@@ -1,4 +1,3 @@
-from add_vhost_4.Danilo import Danilo
 from add_vhost_4.Hosts import Hosts
 from add_vhost_4.VHost_Entry import VHost_Entry
 from add_vhost_4.CLI import CLI
@@ -30,6 +29,6 @@ vhost_desired = cli.get_user_param()
 
 hosts.write_hosts(vhost_desired)
 vhost_entry.add(vhost_desired)
-# vhost_entry.write_folder()
+vhost_entry.write_folder()
 
 print("Virtualhost added locally successfully. Restart your webserver application and access http://" + vhost_desired)
