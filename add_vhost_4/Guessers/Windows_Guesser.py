@@ -10,7 +10,7 @@ class Windows_Guesser:
         self.httpd_entries_address = None
 
 
-    def guess(self):
+    def guess_vhost_entries(self):
 
         for candidate in self.possibles:
             if os.path.isfile(candidate):
