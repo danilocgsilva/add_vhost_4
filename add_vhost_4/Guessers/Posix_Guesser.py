@@ -9,7 +9,7 @@ class Posix_Guesser:
         self.httpd_entries_address = None
 
 
-    def guess(self):
+    def guess_vhost_entries(self):
 
         for candidate in self.possibles:
             if os.path.isfile(candidate):
@@ -22,4 +22,7 @@ class Posix_Guesser:
     def get_base_physical_path(self):
         if self.httpd_entries_address[1:4] == 'etc':
             return '/var/www/html'
+        else:
+            raise Exception("Sorry. Could not guess the physical path for localhost sites.")
+
 
