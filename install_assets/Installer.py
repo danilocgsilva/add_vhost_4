@@ -34,17 +34,20 @@ class Installer:
 
 
     def copy_files(self):
-        os.makedirs(self.base_physical_app_folder)
+
+        self.__custom_makedirs__(self.base_physical_app_folder)
 
         for folder in folders:
 
-            if not os.path.isdir(os.path.join(self.base_physical_app_folder, folder)):
-                os.makedirs(
-                    os.path.join(self.base_physical_app_folder, folder)
-                )
-                print('The folder ' + folder + ' has been created.')
-            else:
-                print('The folder ' + folder + ' already existed in the destiny.')
+            #if not os.path.isdir(os.path.join(self.base_physical_app_folder, folder)):
+            #    os.makedirs(
+            #        os.path.join(self.base_physical_app_folder, folder)
+            #    )
+            #    print('The folder ' + folder + ' has been created.')
+            #else:
+            #    print('The folder ' + folder + ' already existed in the destiny.')
+
+            self.__custom_makedirs__(os.path.join(self.base_physical_app_folder, folder))
 
         for file in files:
 
@@ -65,3 +68,11 @@ class Installer:
 
     def get_error_messages(self):
         return self.error_messages
+
+
+    def __custom_makedirs__(self, folder: str):
+        if os.path.exists(folder):
+            print("The folder " + folder + " already exists!")
+        else:
+            os.makedirs(folder)
+            print("The folder " + folder + " has been created.")
