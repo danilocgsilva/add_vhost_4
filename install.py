@@ -10,5 +10,6 @@ if not can_write:
 
 installer.write_os_entry()
 installer.copy_files()
+installer.set_execution_permission()
 
 print("Run in the terminal: add_vhost")

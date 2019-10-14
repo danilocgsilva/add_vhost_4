@@ -1,6 +1,7 @@
 from install_assets.files_folder import files, folders
 import os
 import shutil
+import stat
 
 class Installer:
 
@@ -39,14 +40,6 @@ class Installer:
 
         for folder in folders:
 
-            #if not os.path.isdir(os.path.join(self.base_physical_app_folder, folder)):
-            #    os.makedirs(
-            #        os.path.join(self.base_physical_app_folder, folder)
-            #    )
-            #    print('The folder ' + folder + ' has been created.')
-            #else:
-            #    print('The folder ' + folder + ' already existed in the destiny.')
-
             self.__custom_makedirs__(os.path.join(self.base_physical_app_folder, folder))
 
         for file in files:
@@ -76,3 +69,9 @@ class Installer:
         else:
             os.makedirs(folder)
             print("The folder " + folder + " has been created.")
+
+
+    def set_execution_permission(self):
+        if os.name == 'posix':
+            os.chmod(self.os_entry, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print("The entry point for adding vhost has setted the execution permission.")
