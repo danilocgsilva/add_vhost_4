@@ -37,7 +37,9 @@ class VHost_Entry:
 
 
     def __get_template_config_file__(self) -> str:
-        return os.path.join('add_vhost_4', 'vhost_config.template')
+        current_file_full_path = os.path.realpath(__file__)
+        current_folder = os.path.dirname(current_file_full_path)
+        return os.path.join(current_folder, 'vhost_config.template')
 
 
     def __write_to_template__(self, template_lines: list, vhost_file_resource):

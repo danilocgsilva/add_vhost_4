@@ -27,7 +27,7 @@ class Installer:
         file_resource = open(self.os_entry, "w")
         file_resource.write("#!/bin/bash\n")
         file_resource.write("\n")
-        file_resource.write("python3 " + self.base_physical_app_folder + "\n")
+        file_resource.write("python3 " + self.base_physical_app_folder + " $1\n")
 
 
     def __forge_destiny__(self, relative_file_path):
@@ -39,11 +39,9 @@ class Installer:
         self.__custom_makedirs__(self.base_physical_app_folder)
 
         for folder in folders:
-
             self.__custom_makedirs__(os.path.join(self.base_physical_app_folder, folder))
 
         for file in files:
-
             if not os.path.exists(os.path.join(self.base_physical_app_folder, file)):
                 shutil.copy(
                     file,
