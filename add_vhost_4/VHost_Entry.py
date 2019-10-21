@@ -14,7 +14,8 @@ class VHost_Entry:
             self.guesser = Posix_Guesser()
 
         self.vhost_file = self.guesser.guess_vhost_entries()
-        self.physical_vhost_path = self.guesser.get_base_physical_path()
+        #self.physical_vhost_path = self.guesser.get_base_physical_path()
+        #self.physical_vhost_path = self.guesser.get_base_physical_path()
         self.desired_name = None
 
 

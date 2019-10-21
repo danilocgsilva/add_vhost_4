@@ -19,7 +19,6 @@ class DebianLikeVHostEntry:
 
 
     def write_folder(self):
-        print("-----" + self.physical_vhost_path)
         if not os.path.isdir(self.physical_vhost_path):
             os.makedirs(self.physical_vhost_path)
             self.__make_stub_php__()
@@ -41,7 +40,10 @@ class DebianLikeVHostEntry:
 
 
     def __write_entry__(self, template_lines: list):
+
         vhost_file_resource = open(self.vhost_file_entry, 'a')
+
+        self.physical_vhost_path = os.path.join(self.guesser.get_base_physical_path(), self.vhost_desired)
 
         line_loop = 0
 
@@ -49,7 +51,7 @@ class DebianLikeVHostEntry:
             if line_loop == 1:
                 line_string = template_line.format(self.vhost_desired)
             elif line_loop == 2:
-                line_string = template_line.format(self.vhost_desired)
+                line_string = template_line.format(self.physical_vhost_path)
             else:
                 line_string = template_line
             vhost_file_resource.write(line_string)
