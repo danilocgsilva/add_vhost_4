@@ -28,8 +28,9 @@ class DebianLike_Guesser:
         fr = open(self.os_release_file, "r")
         line = fr.readline()
         while line:
-            if re.search('NAME', line):
-                name_strings = line.split('"')
+            line_cleaned = re.sub(r'"', r'', line)
+            if re.search('NAME', line_cleaned):
+                name_strings = line.split('=')
                 return name_strings[1]
             line = fr.readline()
 
