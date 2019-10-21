@@ -3,10 +3,12 @@ from add_vhost_4.VHost_Entry import VHost_Entry
 from add_vhost_4.Guessers.DebianLike_Guesser import DebianLike_Guesser
 from add_vhost_4.CLI import CLI
 from add_vhost_4.DebianLikeVHostEntry import DebianLikeVHostEntry
+from add_vhost_4.Apache_Restarter import Apache_Restarter
 
 hosts = Hosts()
 cli = CLI()
 vhost_desired = cli.get_user_param()
+apache_restarter = Apache_Restarter()
 
 debian_like_guesser = DebianLike_Guesser()
 
@@ -33,5 +35,10 @@ if len(errors) > 0:
 hosts.write_hosts(vhost_desired)
 vhost_entry.add(vhost_desired)
 vhost_entry.write_folder()
+trial_apache_restart = apache_restarter.restart()
 
-print("Virtualhost added locally successfully. Restart your webserver application and access http://" + vhost_desired)
+if trial_apache_restart:
+    print("Virtualhost added locally successfully. Access http://" + vhost_desired)
+else:
+    print("Virtualhost added locally successfully. Restart your webserver application and access http://" + vhost_desired)
+

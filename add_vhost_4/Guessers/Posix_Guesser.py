@@ -24,5 +24,5 @@ class Posix_Guesser:
 
 
     def guess_debian_like_vhost_file(self, desired_name: str) -> str:
-        return os.sep + os.path.join('etc', 'apache2', 'sites-available', desired_name)
+        return os.sep + os.path.join('etc', 'apache2', 'sites-available', desired_name) + '.conf'
 

@@ -1,11 +1,13 @@
 from add_vhost_4.Guessers.Posix_Guesser import Posix_Guesser
 import os
+import subprocess
 
 class DebianLikeVHostEntry:
 
     def __init__(self, vhost_desired):
         self.vhost_desired = vhost_desired
         self.guesser = Posix_Guesser()
+        self.vhost_file_entry = self.guesser.guess_debian_like_vhost_file(self.vhost_desired)
         self.physical_vhost_path = self.guesser.get_base_physical_path()
 
 
@@ -13,16 +15,19 @@ class DebianLikeVHostEntry:
         template_file_resource = open(self.__get_template_config_file__(), "r")
         template_lines = template_file_resource.readlines()
         self.__write_entry__(template_lines)
+        self.__link__()
 
 
     def write_folder(self):
+        print("-----" + self.physical_vhost_path)
         if not os.path.isdir(self.physical_vhost_path):
             os.makedirs(self.physical_vhost_path)
             self.__make_stub_php__()
 
+
     def can_write(self) -> bool:
         try:
-            resource_test = open(self.physical_vhost_path, "a")
+            resource_test = open(self.vhost_file_entry, "a")
             resource_test.close()
             return True
         except:
@@ -36,8 +41,7 @@ class DebianLikeVHostEntry:
 
 
     def __write_entry__(self, template_lines: list):
-        vhost_file_entry = self.guesser.guess_debian_like_vhost_file(self.vhost_desired)
-        vhost_file_resource = open(vhost_file_entry, 'a')
+        vhost_file_resource = open(self.vhost_file_entry, 'a')
 
         line_loop = 0
 
@@ -45,7 +49,7 @@ class DebianLikeVHostEntry:
             if line_loop == 1:
                 line_string = template_line.format(self.vhost_desired)
             elif line_loop == 2:
-                line_string = template_line.format(vhost_file_entry)
+                line_string = template_line.format(self.vhost_desired)
             else:
                 line_string = template_line
             vhost_file_resource.write(line_string)
@@ -57,3 +61,6 @@ class DebianLikeVHostEntry:
         file_resource = open(file_name, "w")
         file_resource.write('Hello world! This VirtualHost name is ' + self.vhost_desired)
 
+
+    def __link__(self):
+        subprocess.call(['a2ensite', self.vhost_desired])
