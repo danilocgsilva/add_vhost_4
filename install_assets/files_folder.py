@@ -2,6 +2,7 @@ import os
 
 files = [
     '__main__.py',
+    os.path.join('add_vhost_4', 'Apache_Restarter.py'),
     os.path.join('add_vhost_4', 'CLI.py'),
     os.path.join('add_vhost_4', 'DebianLikeVHostEntry.py'),
     os.path.join('add_vhost_4', 'Hosts.py'),
