@@ -20,9 +20,9 @@ class Posix_Guesser:
 
 
     def get_base_physical_path(self):
-        if self.httpd_entries_address[1:4] == 'etc':
-            return '/var/www/html'
-        else:
-            raise Exception("Sorry. Could not guess the physical path for localhost sites.")
+        return '/var/www/html'
 
+
+    def guess_debian_like_vhost_file(self, desired_name: str) -> str:
+        return os.sep + os.path.join('etc', 'apache2', 'sites-available', desired_name)
 
