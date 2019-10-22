@@ -15,6 +15,7 @@ class DebianLike_Guesser:
 
         os_name = self.__get_os_release_name__()
 
+
         if os_name == None:
             return False
 
@@ -28,8 +29,9 @@ class DebianLike_Guesser:
         fr = open(self.os_release_file, "r")
         line = fr.readline()
         while line:
-            line_cleaned = re.sub(r'"', r'', line)
-            if re.search('NAME', line_cleaned):
+            line = re.sub(r'"', r'', line)
+            line = re.sub(r"\n", r"", line)
+            if re.search('NAME', line):
                 name_strings = line.split('=')
                 return name_strings[1]
             line = fr.readline()
