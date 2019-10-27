@@ -13,6 +13,9 @@ class DebianLike_Guesser:
         if os.name == 'nt':
             return False
 
+        if not os.path.isfile(self.os_release_file):
+            return False
+
         os_name = self.__get_os_release_name__()
 
 
