@@ -18,14 +18,9 @@ class App:
             self.__cannot_get_dev_user_message__()
             return False
             
-        apache_group = self.__get_apache_group__()
-        subprocess.call(['chown', '-Rv', current_user + ':' + apache_group, physical_vhost_path])
+        subprocess.call(['chown', '-Rv', current_user + ':' + 'daemon', physical_vhost_path])
         subprocess.call(['chmod', '-Rv', '775', physical_vhost_path])
         return True
-
-    
-    def __get_apache_group__(self) -> str:
-        return 'apache'
 
 
     def __get_dev_user__(self) -> str:
