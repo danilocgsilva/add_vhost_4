@@ -28,10 +28,8 @@ class Apache_Restarter:
 
 
     def __centos_like_restart__(self) -> bool:
-        print("Falled to cent_os restarter")
-        try:
-            FNULL = open(os.devnull, 'w')
-            subprocess.call(['service', 'httpd', 'restart'], stdout=FNULL, stderr=FNULL)
+        FNULL = open(os.devnull, 'w')
+        result_from_trial = subprocess.call(['service', 'httpd', 'restart'], stdout=FNULL, stderr=FNULL)
+        if result_from_trial == 0:
             return True
-        except:
-            return False
+        return False
