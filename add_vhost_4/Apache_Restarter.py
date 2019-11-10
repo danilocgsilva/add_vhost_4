@@ -6,24 +6,29 @@ class Apache_Restarter:
     def restart(self) -> bool:
         restarted = self.__debian_like_restart__()
         if restarted:
+            print("Success in the debian like restart")
             return True
         if not restarted:
             restarted = self.__centos_like_restart__()
-            if restarted:
-                return True
+        if restarted:
+            return True
         return False
 
 
     def __debian_like_restart__(self) -> bool:
-        try:
-            FNULL = open(os.devnull, 'w')
-            subprocess.call(['service', 'apache2', 'restart'], stdout=FNULL, stderr=FNULL)
+        FNULL = open(os.devnull, 'w')
+        result_from_trial = subprocess.call(
+            ['service', 'apache2', 'restart'], 
+            stdout=FNULL, 
+            stderr=FNULL
+        )
+        if result_from_trial == 0:
             return True
-        except:
-            return False
+        return False
 
 
     def __centos_like_restart__(self) -> bool:
+        print("Falled to cent_os restarter")
         try:
             FNULL = open(os.devnull, 'w')
             subprocess.call(['service', 'httpd', 'restart'], stdout=FNULL, stderr=FNULL)
