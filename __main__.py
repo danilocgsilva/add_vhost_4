@@ -37,8 +37,8 @@ if len(errors) > 0:
 hosts.write_hosts(vhost_desired)
 vhost_entry.add(vhost_desired)
 vhost_entry.write_folder()
-trial_apache_restart = apache_restarter.restart()
 app.assignPermissions(vhost_entry.get_physical_vhost_path())
+trial_apache_restart = apache_restarter.restart()
 
 if trial_apache_restart:
     print("Virtualhost added locally successfully. Access http://" + vhost_desired)
