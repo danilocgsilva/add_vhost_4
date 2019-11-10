@@ -4,11 +4,13 @@ from add_vhost_4.Guessers.DebianLike_Guesser import DebianLike_Guesser
 from add_vhost_4.CLI import CLI
 from add_vhost_4.DebianLikeVHostEntry import DebianLikeVHostEntry
 from add_vhost_4.Apache_Restarter import Apache_Restarter
+from add_vhost_4.App import App
 
 hosts = Hosts()
 cli = CLI()
 vhost_desired = cli.get_user_param()
 apache_restarter = Apache_Restarter()
+app = App()
 
 debian_like_guesser = DebianLike_Guesser()
 
@@ -36,6 +38,7 @@ hosts.write_hosts(vhost_desired)
 vhost_entry.add(vhost_desired)
 vhost_entry.write_folder()
 trial_apache_restart = apache_restarter.restart()
+app.assignPermissions(vhost_entry.get_physical_vhost_path())
 
 if trial_apache_restart:
     print("Virtualhost added locally successfully. Access http://" + vhost_desired)

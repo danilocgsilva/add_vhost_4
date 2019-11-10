@@ -10,7 +10,8 @@ files = [
     os.path.join('add_vhost_4', 'vhost_config.template'),
     os.path.join('add_vhost_4', 'Guessers', 'Posix_Guesser.py'),
     os.path.join('add_vhost_4', 'Guessers', 'Windows_Guesser.py'),
-    os.path.join('add_vhost_4', 'Guessers', 'DebianLike_Guesser.py')
+    os.path.join('add_vhost_4', 'Guessers', 'DebianLike_Guesser.py'),
+    os.path.join('add_vhost_4', 'App.py')
 ]
 
 folders = [

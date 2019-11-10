@@ -14,8 +14,6 @@ class VHost_Entry:
             self.guesser = Posix_Guesser()
 
         self.vhost_file = self.guesser.guess_vhost_entries()
-        #self.physical_vhost_path = self.guesser.get_base_physical_path()
-        #self.physical_vhost_path = self.guesser.get_base_physical_path()
         self.desired_name = None
 
 
@@ -63,6 +61,10 @@ class VHost_Entry:
         if not os.path.isdir(self.physical_vhost_path):
             os.makedirs(self.physical_vhost_path)
             self.__make_stub_php__()
+
+
+    def get_physical_vhost_path(self):
+        return self.physical_vhost_path
 
 
     def __make_stub_php__(self):
