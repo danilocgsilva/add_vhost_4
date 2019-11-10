@@ -19,33 +19,24 @@ class Apache_Restarter:
 
 
     def __try_restart__(self, mode: str) -> bool:
+
+        if mode == 'debian':
+            service = 'apache2'
+        elif mode == 'centos':
+            service = 'httpd'
+        else:
+            raise Exception("The pattern for restart still not implemented.")
+
         try:
-            if mode == 'debian':
-                return self.__debian_like_restart__()
-            elif mode == 'centos':
-                return self.__debian_like_restart__()
+            result_from_trial = subprocess.call(
+                ['service', service, 'restart'], 
+                stdout = self.fnull, 
+                stderr = self.fnull
+            )
+            if result_from_trial == 0:
+                return True
+            return False
         except FileNotFoundError:
             return False
 
 
-    def __debian_like_restart__(self) -> bool:
-        result_from_trial = subprocess.call(
-            ['service', 'apache2', 'restart'], 
-            stdout = self.fnull, 
-            stderr = self.fnull
-        )
-        if result_from_trial == 0:
-            return True
-        return False
-
-
-
-    def __centos_like_restart__(self) -> bool:
-        result_from_trial = subprocess.call(
-            ['service', 'httpd', 'restart'], 
-            stdout = self.fnull, 
-            stderr = self.fnull
-        )
-        if result_from_trial == 0:
-            return True
-        return False
