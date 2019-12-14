@@ -1,4 +1,6 @@
 from install_assets.files_folder import files, folders
+from install_assets.Nt_Paths import Nt_Paths
+from install_assets.Posix_Paths import Posix_Paths
 import os
 import shutil
 import stat
@@ -6,8 +8,16 @@ import stat
 class Installer:
 
     def __init__(self):
-        self.base_physical_app_folder = "/opt/danilocgsilva_add_vhost"
-        self.os_entry = os.sep + os.path.join('usr', 'local', 'bin', 'add_vhost')
+
+        if os.name == 'nt':
+            paths = Nt_Paths()
+        elif os.name == 'posix':
+            paths = Posix_Paths()
+        else:
+            raise Exception("The os name is not known...")
+
+        self.base_physical_app_folder = paths.get_base_physical_app_folders()
+        self.os_entry = paths.get_os_entry()
         self.error_messages = []
 
 
@@ -57,8 +67,11 @@ class Installer:
                 print('The file ' + file + ' has been replaced.')
 
 
-    def get_error_messages(self):
-        return self.error_messages
+    def get_error_messages(self) -> str:
+        error_message = ""
+        for message in self.error_messages:
+            error_message += "\n" + message
+        return error_message
 
 
     def __custom_makedirs__(self, folder: str):
