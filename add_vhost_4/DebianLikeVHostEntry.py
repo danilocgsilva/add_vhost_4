@@ -33,6 +33,10 @@ class DebianLikeVHostEntry:
             return False
 
 
+    def get_physical_vhost_path(self):
+        return self.physical_vhost_path
+
+
     def __get_template_config_file__(self) -> str:
         current_file_full_path = os.path.realpath(__file__)
         current_folder = os.path.dirname(current_file_full_path)

@@ -45,3 +45,4 @@ if trial_apache_restart:
 else:
     print("Virtualhost added locally successfully. Restart your webserver application and access http://" + vhost_desired)
 
+print("You can find your application in: " + vhost_entry.get_physical_vhost_path())
