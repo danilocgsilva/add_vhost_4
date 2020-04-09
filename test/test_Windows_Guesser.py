@@ -22,5 +22,15 @@ class test_Windows_Guesser(unittest.TestCase):
         self.assertEqual(correct_path, guessed_path)
 
 
+    def test_can_search_correct_apache_version_with_asterisk_different_string(self):
+        windows_guesser = Windows_Guesser()
+        file_candidate_asterisk = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
+        file_list = ["apache2.4.41"]
+        windows_guesser.add_file_list(file_list)
+        correct_path = "C:\\wamp64\\bin\\apache\\apache2.4.41\\conf\\extra\\httpd-vhosts.conf"
+        guessed_path = windows_guesser.search_version(file_candidate_asterisk)
+        self.assertEqual(correct_path, guessed_path)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -39,5 +39,35 @@ class Windows_Guesser:
 
     def search_version(self, candidate):
         if re.search("\*", candidate):
-            return "C:\\wamp64\\bin\\apache\\apache2.4.39\\conf\\extra\\httpd-vhosts.conf"
+            path_parts = candidate.split("\\")
+            count_loop = 0
+
+            prefix_parts = []
+            for part in path_parts:
+                if re.search("\*", part):
+                    break
+                prefix_parts.append(part)
+                count_loop = count_loop + 1
+            list_dir = os.listdir(
+                self.generate_path_string_from_list(prefix_parts)
+            )
+            found_dir = list_dir[0]
+            return self.generate_path_string_from_list(prefix_parts)
+            # return found_dir
+
+            # return "C:\\wamp64\\bin\\apache\\apache2.4.39\\conf\\extra\\httpd-vhosts.conf"
         return candidate
+
+
+    def generate_path_string_from_list(self, parts_list: list):
+        path_string = ""
+        loop_pass = 0
+        for part in parts_list:
+            path_string = path_string + part
+            if len(parts_list) != loop_pass + 1:
+                path_string = path_string + os.sep
+            loop_pass = loop_pass + 1
+        return path_string
+        
+
+
