@@ -1,5 +1,6 @@
 import unittest
 import sys
+import os
 sys.path.append("..")
 from add_vhost_4.Guessers.Windows_Guesser import Windows_Guesser
 
@@ -30,6 +31,14 @@ class test_Windows_Guesser(unittest.TestCase):
         correct_path = "C:\\wamp64\\bin\\apache\\apache2.4.41\\conf\\extra\\httpd-vhosts.conf"
         guessed_path = windows_guesser.search_version(file_candidate_asterisk)
         self.assertEqual(correct_path, guessed_path)
+
+
+    def test_generate_path_string(self):
+        windows_guesser = Windows_Guesser()        
+        members = ["c", "Wamp", "bin", "apache2"]
+        expected_path = os.path.join(members[0], members[1], members[2], members[3])
+        generated_path = windows_guesser.generate_path_string_from_list(members)
+        self.assertEqual(expected_path, generated_path)
 
 
 if __name__ == '__main__':

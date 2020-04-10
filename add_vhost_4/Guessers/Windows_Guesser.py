@@ -38,25 +38,43 @@ class Windows_Guesser:
 
 
     def search_version(self, candidate):
+
         if re.search("\*", candidate):
-            path_parts = candidate.split("\\")
-            count_loop = 0
+            candidate = self.search_version_asterisk(candidate)
 
-            prefix_parts = []
-            for part in path_parts:
-                if re.search("\*", part):
-                    break
-                prefix_parts.append(part)
-                count_loop = count_loop + 1
-            list_dir = os.listdir(
-                self.generate_path_string_from_list(prefix_parts)
-            )
-            found_dir = list_dir[0]
-            return self.generate_path_string_from_list(prefix_parts)
-            # return found_dir
-
-            # return "C:\\wamp64\\bin\\apache\\apache2.4.39\\conf\\extra\\httpd-vhosts.conf"
         return candidate
+
+
+    def search_version_asterisk(self, candidate):
+        path_parts = candidate.split("\\")
+        count_loop = 0
+
+        prefix_parts = []
+        for part in path_parts:
+            if re.search("\*", part):
+                break
+            prefix_parts.append(part)
+            count_loop = count_loop + 1
+        list_dir = os.listdir(
+            self.generate_path_string_from_list(prefix_parts)
+        )
+
+        suffix_parts = []
+        suffix_count_loop = 0
+        for part in path_parts:
+            suffix_count_loop = suffix_count_loop + 1
+            if suffix_count_loop <= count_loop + 1:
+                continue
+            suffix_parts.append(part)
+            count_loop = count_loop + 1
+
+        found_dir = list_dir[0]
+
+        return os.path.join( 
+            self.generate_path_string_from_list(prefix_parts),
+            found_dir,
+            self.generate_path_string_from_list(suffix_parts)
+        )
 
 
     def generate_path_string_from_list(self, parts_list: list):
