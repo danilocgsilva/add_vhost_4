@@ -46,6 +46,7 @@ class Windows_Guesser:
 
 
     def search_version_asterisk(self, candidate):
+
         path_parts = candidate.split("\\")
         count_loop = 0
 
@@ -55,9 +56,6 @@ class Windows_Guesser:
                 break
             prefix_parts.append(part)
             count_loop = count_loop + 1
-        list_dir = os.listdir(
-            self.generate_path_string_from_list(prefix_parts)
-        )
 
         suffix_parts = []
         suffix_count_loop = 0
@@ -68,7 +66,7 @@ class Windows_Guesser:
             suffix_parts.append(part)
             count_loop = count_loop + 1
 
-        found_dir = list_dir[0]
+        found_dir = self.file_list[0]
 
         return os.path.join( 
             self.generate_path_string_from_list(prefix_parts),
