@@ -10,19 +10,15 @@ class Windows_Guesser:
         ]
         self.httpd_entries_address = None
         self.file_list = []
+        self.generic_apache_path = ""
 
 
     def guess_vhost_entries(self):
 
-        for candidate in self.possibles:
+        if not self.generic_apache_path == "":
+            return self.search_version(self.generic_apache_path)
 
-            processed_candidate = self.search_version(candidate)
-
-            if os.path.isfile(processed_candidate):
-                self.httpd_entries_address = candidate
-                return self.httpd_entries_address
-
-        raise FileNotFoundError("There were not possible to guess the path for the virtual hosts entry.")
+        return self.possibles[0]
 
 
     def get_base_physical_path(self):
@@ -84,6 +80,7 @@ class Windows_Guesser:
                 path_string = path_string + os.sep
             loop_pass = loop_pass + 1
         return path_string
-        
 
 
+    def set_generic_apache_path(self, generic_apache_path: str):
+        self.generic_apache_path = generic_apache_path

@@ -14,6 +14,10 @@ class VHost_Entry:
             self.guesser = Posix_Guesser()
 
         self.vhost_file = self.guesser.guess_vhost_entries()
+
+        if not os.path.isfile(self.vhost_file):
+            raise FileNotFoundError("There were not possible to guess the path for the virtual hosts entry.")
+
         self.desired_name = None
 
 

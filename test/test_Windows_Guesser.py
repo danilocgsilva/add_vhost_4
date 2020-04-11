@@ -42,5 +42,19 @@ class test_Windows_Guesser(unittest.TestCase):
         self.assertEqual(expected_path, generated_path)
 
 
+    def test_guess_vhost_entries(self):
+
+        apache_version_list_results = [ "apache2.4.33" ]
+        self.windows_guesser.add_file_list(apache_version_list_results)
+
+        generic_apache_path = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_generic_apache_path(generic_apache_path)
+
+        guessed_vhost_path = self.windows_guesser.guess_vhost_entries()
+        correct_file_path = "C:\\wamp64\\bin\\apache\\apache2.4.33\\conf\\extra\\httpd-vhosts.conf"
+
+        self.assertEqual(correct_file_path, guessed_vhost_path)
+
+
 if __name__ == '__main__':
     unittest.main()
