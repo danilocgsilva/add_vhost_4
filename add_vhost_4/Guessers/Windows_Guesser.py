@@ -45,23 +45,8 @@ class Windows_Guesser:
 
 
     def search_version_asterisk(self):
-
-
-        # path_parts = candidate.split("\\")
-        # count_loop = 0
-
-
-        # prefix_parts = []
-        # for part in self.path_parts:
-        #     if re.search("\*", part):
-        #         break
-        #     prefix_parts.append(part)
-        #     self.count_loop = self.count_loop + 1
-
-        # prefix_path = self.generate_path_string_from_list(prefix_parts)
         
         prefix_path = self.get_prefix_path_from_generic_path()
-
 
         suffix_parts = []
         suffix_count_loop = 0
@@ -96,7 +81,7 @@ class Windows_Guesser:
         self.generic_apache_path = generic_apache_path
 
 
-    def get_prefix_path_from_generic_path(self):
+    def get_prefix_path_from_generic_path(self) -> str:
         
         prefix_parts = []
 
@@ -106,10 +91,9 @@ class Windows_Guesser:
             prefix_parts.append(part)
             self.count_loop = self.count_loop + 1
 
-        # prefix_path = self.generate_path_string_from_list(prefix_parts)
-        return self.generate_path_string_from_list(prefix_parts)
+        prefix_path = self.generate_path_string_from_list(prefix_parts)
 
-        # return '123'
+        return prefix_path
 
 
     def set_path_parts(self, path: str):

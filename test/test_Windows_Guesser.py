@@ -59,7 +59,7 @@ class test_Windows_Guesser(unittest.TestCase):
     def test_get_prefix_path_from_generic_path(self):
 
         generic_apache_path = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
-        self.windows_guesser.set_generic_apache_path(generic_apache_path)
+        self.windows_guesser.set_path_parts(generic_apache_path)
 
         expected_result = "C:\\wamp64\\bin\\apache"
         prefix_result = self.windows_guesser.get_prefix_path_from_generic_path()
