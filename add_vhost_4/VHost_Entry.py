@@ -9,7 +9,12 @@ class VHost_Entry:
         self.guesser = None
 
         if os.name == 'nt':
+
             self.guesser = Windows_Guesser()
+
+            generic_apache_path = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
+            self.guesser.set_generic_apache_path(generic_apache_path)
+
         else:
             self.guesser = Posix_Guesser()
 
@@ -75,3 +80,7 @@ class VHost_Entry:
         file_name = os.path.join(self.physical_vhost_path, 'index.html')
         file_resource = open(file_name, "w")
         file_resource.write('Hello world! This VirtualHost name is ' + self.desired_name)
+
+
+    def get_prefix_path_from_generic_path(self):
+        return '123'
