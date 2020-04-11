@@ -81,6 +81,3 @@ class VHost_Entry:
         file_resource = open(file_name, "w")
         file_resource.write('Hello world! This VirtualHost name is ' + self.desired_name)
 
-
-    def get_prefix_path_from_generic_path(self):
-        return '123'

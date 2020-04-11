@@ -11,6 +11,8 @@ class Windows_Guesser:
         self.httpd_entries_address = None
         self.file_list = []
         self.generic_apache_path = ""
+        self.path_parts = []
+        self.count_loop = 0
 
 
     def guess_vhost_entries(self):
@@ -36,36 +38,44 @@ class Windows_Guesser:
     def search_version(self, candidate):
 
         if re.search("\*", candidate):
-            candidate = self.search_version_asterisk(candidate)
+            self.set_path_parts(candidate)
+            candidate = self.search_version_asterisk()
 
         return candidate
 
 
-    def search_version_asterisk(self, candidate):
+    def search_version_asterisk(self):
 
-        path_parts = candidate.split("\\")
-        count_loop = 0
 
-        prefix_parts = []
-        for part in path_parts:
-            if re.search("\*", part):
-                break
-            prefix_parts.append(part)
-            count_loop = count_loop + 1
+        # path_parts = candidate.split("\\")
+        # count_loop = 0
+
+
+        # prefix_parts = []
+        # for part in self.path_parts:
+        #     if re.search("\*", part):
+        #         break
+        #     prefix_parts.append(part)
+        #     self.count_loop = self.count_loop + 1
+
+        # prefix_path = self.generate_path_string_from_list(prefix_parts)
+        
+        prefix_path = self.get_prefix_path_from_generic_path()
+
 
         suffix_parts = []
         suffix_count_loop = 0
-        for part in path_parts:
+        for part in self.path_parts:
             suffix_count_loop = suffix_count_loop + 1
-            if suffix_count_loop <= count_loop + 1:
+            if suffix_count_loop <= self.count_loop + 1:
                 continue
             suffix_parts.append(part)
-            count_loop = count_loop + 1
+            self.count_loop = self.count_loop + 1
 
         found_dir = self.file_list[0]
 
         return os.path.join( 
-            self.generate_path_string_from_list(prefix_parts),
+            prefix_path,
             found_dir,
             self.generate_path_string_from_list(suffix_parts)
         )
@@ -84,3 +94,23 @@ class Windows_Guesser:
 
     def set_generic_apache_path(self, generic_apache_path: str):
         self.generic_apache_path = generic_apache_path
+
+
+    def get_prefix_path_from_generic_path(self):
+        
+        prefix_parts = []
+
+        for part in self.path_parts:
+            if re.search("\*", part):
+                break
+            prefix_parts.append(part)
+            self.count_loop = self.count_loop + 1
+
+        # prefix_path = self.generate_path_string_from_list(prefix_parts)
+        return self.generate_path_string_from_list(prefix_parts)
+
+        # return '123'
+
+
+    def set_path_parts(self, path: str):
+        self.path_parts = path.split("\\")
