@@ -13,6 +13,8 @@ class Windows_Guesser:
         self.generic_apache_path = ""
         self.path_parts = []
         self.count_loop = 0
+        self.prefix_path = ""
+        self.suffix_path = ""
 
 
     def guess_vhost_entries(self):
@@ -46,23 +48,14 @@ class Windows_Guesser:
 
     def search_version_asterisk(self):
         
-        prefix_path = self.get_prefix_path_from_generic_path()
-
-        suffix_parts = []
-        suffix_count_loop = 0
-        for part in self.path_parts:
-            suffix_count_loop = suffix_count_loop + 1
-            if suffix_count_loop <= self.count_loop + 1:
-                continue
-            suffix_parts.append(part)
-            self.count_loop = self.count_loop + 1
+        generated_prefix_and_suffix = self.sepparate_preffix_suffix_from_generic_path()
 
         found_dir = self.file_list[0]
 
         return os.path.join( 
-            prefix_path,
+            generated_prefix_and_suffix[0],
             found_dir,
-            self.generate_path_string_from_list(suffix_parts)
+            generated_prefix_and_suffix[1]
         )
 
 
@@ -81,7 +74,7 @@ class Windows_Guesser:
         self.generic_apache_path = generic_apache_path
 
 
-    def get_prefix_path_from_generic_path(self) -> str:
+    def config_prefix_path_from_generic_path(self):
         
         prefix_parts = []
 
@@ -91,10 +84,39 @@ class Windows_Guesser:
             prefix_parts.append(part)
             self.count_loop = self.count_loop + 1
 
-        prefix_path = self.generate_path_string_from_list(prefix_parts)
+        self.prefix_path = self.generate_path_string_from_list(prefix_parts)
 
-        return prefix_path
 
 
     def set_path_parts(self, path: str):
         self.path_parts = path.split("\\")
+
+
+    def config_suffix_path_from_generic_path(self):
+        suffix_parts = []
+        suffix_count_loop = 0
+        for part in self.path_parts:
+            suffix_count_loop = suffix_count_loop + 1
+            if suffix_count_loop <= self.count_loop + 1:
+                continue
+            suffix_parts.append(part)
+            self.count_loop = self.count_loop + 1
+
+        self.suffix_path = self.generate_path_string_from_list(suffix_parts)
+
+
+    def get_prefix_path_from_generic_path(self):
+        return self.prefix_path
+
+
+    def sepparate_preffix_suffix_from_generic_path(self) -> list: 
+
+        self.config_prefix_path_from_generic_path()
+
+        self.config_suffix_path_from_generic_path()
+
+        return [
+            self.prefix_path,
+            self.suffix_path
+        ]
+        
