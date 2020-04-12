@@ -9,26 +9,11 @@ class VHost_Entry:
         self.guesser = None
 
         if os.name == 'nt':
-
             self.guesser = Windows_Guesser()
-
-            generic_apache_path = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
-            self.guesser.set_generic_apache_path(generic_apache_path)
-            self.guesser.set_path_parts(generic_apache_path)
-            self.guesser.sepparate_preffix_suffix_from_generic_path()
-
-            base_path_fs = self.guesser.get_prefix_path_from_generic_path()
-            apache_versions = os.listdir(base_path_fs)
-
-            self.guesser.add_file_list(apache_versions)
-
         else:
             self.guesser = Posix_Guesser()
 
         self.vhost_file = self.guesser.guess_vhost_entries()
-
-        print("--" + self.vhost_file + "--")
-        exit()
 
         if not os.path.isfile(self.vhost_file):
             raise FileNotFoundError("There were not possible to guess the path for the virtual hosts entry.")
