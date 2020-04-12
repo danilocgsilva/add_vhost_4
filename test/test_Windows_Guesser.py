@@ -49,7 +49,6 @@ class test_Windows_Guesser(unittest.TestCase):
 
     def test_guess_vhost_entries_with_path_parts_and_generic_apache(self):
         generic_apache_path = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
-        self.windows_guesser.set_path_parts(generic_apache_path)
         self.windows_guesser.set_generic_apache_path(generic_apache_path)
         self.windows_guesser.sepparate_preffix_suffix_from_generic_path()
 
@@ -57,6 +56,7 @@ class test_Windows_Guesser(unittest.TestCase):
         self.windows_guesser.add_file_list(apache_version_list)
 
         expected_result = "C:\\wamp64\\bin\\apache\\apache2.4.29\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_path_parts(generic_apache_path)
         guessed_string = self.windows_guesser.guess_vhost_entries()
 
         self.assertEqual(expected_result, guessed_string)
@@ -64,7 +64,6 @@ class test_Windows_Guesser(unittest.TestCase):
 
     def test_search_version_with_path_parts_and_generic_apache(self):
         generic_apache_path = "D:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
-        self.windows_guesser.set_path_parts(generic_apache_path)
         self.windows_guesser.set_generic_apache_path(generic_apache_path)
         self.windows_guesser.sepparate_preffix_suffix_from_generic_path()
 
@@ -72,6 +71,7 @@ class test_Windows_Guesser(unittest.TestCase):
         self.windows_guesser.add_file_list(apache_version_list)
 
         expected = "D:\\wamp64\\bin\\apache\\apache2.4.28\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_path_parts(generic_apache_path)
         guessed_path = self.windows_guesser.search_version(generic_apache_path)
 
         self.assertEqual(expected, guessed_path)
@@ -79,17 +79,64 @@ class test_Windows_Guesser(unittest.TestCase):
 
     def test_search_version_asterisk_with_path_parts_and_generic_apache(self):
         generic_apache_path = "D:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
-        self.windows_guesser.set_path_parts(generic_apache_path)
         self.windows_guesser.set_generic_apache_path(generic_apache_path)
         self.windows_guesser.sepparate_preffix_suffix_from_generic_path()
 
         apache_version_list = [ "apache2.4.34" ]
         self.windows_guesser.add_file_list(apache_version_list)
 
-        expected = "D:\\wamp64\\bin\\apache\\apache2.4.28\\conf\\extra\\httpd-vhosts.conf"
+        expected = "D:\\wamp64\\bin\\apache\\apache2.4.34\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_path_parts(generic_apache_path)
         guessed_path = self.windows_guesser.search_version_asterisk()
 
         self.assertEqual(expected, guessed_path)
+
+
+    def test_sepparate_preffix_suffix_from_generic_path(self):
+        generic_apache_path = "E:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_path_parts(generic_apache_path)
+
+        apache_version_list = [ "apache2.4.32" ]
+        self.windows_guesser.add_file_list(apache_version_list)
+
+        expected_result = [
+            "E:\\wamp64\\bin\\apache",
+            "conf\\extra\\httpd-vhosts.conf"
+        ]
+
+        outputted_separated = self.windows_guesser.sepparate_preffix_suffix_from_generic_path()
+
+        self.assertEqual(expected_result, outputted_separated)
+
+
+    def test_sepparate_preffix_suffix_side_effect_prefix_property(self):
+        generic_apache_path = "E:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_path_parts(generic_apache_path)
+
+        apache_version_list = [ "apache2.4.29" ]
+        self.windows_guesser.add_file_list(apache_version_list)
+
+        self.windows_guesser.sepparate_preffix_suffix_from_generic_path()
+
+        expected_prefix = "E:\\wamp64\\bin\\apache"
+        object_prefix = self.windows_guesser.get_prefix_path_from_generic_path()
+
+        self.assertEqual(expected_prefix, object_prefix)
+
+
+    def test_sepparate_preffix_suffix_side_effect_suffix_property(self):
+        generic_apache_path = "E:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
+        self.windows_guesser.set_path_parts(generic_apache_path)
+
+        apache_version_list = [ "apache2.4.28" ]
+        self.windows_guesser.add_file_list(apache_version_list)
+
+        self.windows_guesser.sepparate_preffix_suffix_from_generic_path()
+        
+        expected_suffix = "conf\\extra\\httpd-vhosts.conf"
+        object_suffix = self.windows_guesser.get_suffix_path()
+
+        self.assertEqual(expected_suffix, object_suffix)
 
 
     def test_get_prefix_path_with_path_parts_and_generic_apache_d_drive(self):

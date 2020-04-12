@@ -25,6 +25,10 @@ class Windows_Guesser:
         return self.possibles[0]
 
 
+    def get_suffix_path(self) -> str:
+        return self.suffix_path
+
+
     def get_base_physical_path(self):
         return os.path.join(self.httpd_entries_address[0:9], "www")
 

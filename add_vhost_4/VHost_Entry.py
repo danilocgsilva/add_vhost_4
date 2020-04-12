@@ -13,8 +13,8 @@ class VHost_Entry:
             self.guesser = Windows_Guesser()
 
             generic_apache_path = "C:\\wamp64\\bin\\apache\\apache2.4.*\\conf\\extra\\httpd-vhosts.conf"
-            self.guesser.set_path_parts(generic_apache_path)
             self.guesser.set_generic_apache_path(generic_apache_path)
+            self.guesser.set_path_parts(generic_apache_path)
             self.guesser.sepparate_preffix_suffix_from_generic_path()
 
             base_path_fs = self.guesser.get_prefix_path_from_generic_path()
